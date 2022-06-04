@@ -51,7 +51,7 @@
 		var pagamento = new Date(data2).getTime();
 		var dif = Math.floor((pagamento - hoje) / (1000 * 60 * 60 * 24));
 		var gasto = valor / (dif);
-		var resultado = "Faltam <b>" + (dif) + "</b> dias para o pagamento." +
+		var resultado = "São <b>" + (dif) + "</b> dias de controle de gastos.<br>" +
 			" Você pode gastar <b>R$" +	gasto.toFixed(2) + "</b> por dia."
 		document.getElementById("resultado").innerHTML = resultado;
 	}	
