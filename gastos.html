@@ -1,0 +1,61 @@
+<!doctype html>
+<html>
+<head>
+	<title>Gastos</title>
+	<meta charset="utf-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	<style>
+	body {background-color: #dff;}
+	</style>
+</head>
+<body>
+	<h1>Controle do Julius</h1>
+	Quanto você tem (R$)? <input id="valor" size="4"/><br/><br/>
+	Data inicial da economia? <input type="date" id="ini"/><br/><br/>
+	Data do próximo pagamento? <input type="date" id="pag"/><br/><br/>
+	<button id="proc">Processar</button><br/><br/>
+	<span id="resultado"></span>
+	
+	<script>
+	var inValor = document.getElementById("valor");
+	var inData1 = document.getElementById("ini");
+	var inData2 = document.getElementById("pag");
+	
+	document.getElementById("proc").onclick = function() {
+		var valor = Number(inValor.value);
+		
+		if (valor == 0) {
+			alert("Insira um valor.");
+			return;
+		} else if (isNaN(valor)) {
+			alert("Insira um valor numérico válido. Separe os centavos com \".\" (ponto)" + 
+				" e não com \",\" (vírgula).");
+			return;
+		}
+		
+		var data1 = inData1.value;
+		
+		if (data1 == 0) {
+			alert("Insira uma data válida.");
+			return;
+		}
+		
+		var data2 = inData2.value;
+		
+		if (data2 == 0) {
+			alert("Insira uma data válida.");
+			return;
+		}
+		
+		var hoje = new Date(data1).getTime();
+		var pagamento = new Date(data2).getTime();
+		var dif = Math.floor((pagamento - hoje) / (1000 * 60 * 60 * 24));
+		var gasto = valor / (dif);
+		var resultado = "Faltam <b>" + (dif) + "</b> dias para o pagamento." +
+			" Você pode gastar <b>R$" +	gasto.toFixed(2) + "</b> por dia."
+		document.getElementById("resultado").innerHTML = resultado;
+	}	
+	</script>
+</body>
+</html>
+
