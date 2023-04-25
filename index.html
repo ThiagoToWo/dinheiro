@@ -12,7 +12,7 @@
 
 		.cursive {
 			font-family: cursive;
-			font-size: 1.2em;
+			font-size: 1.1em;
 		}
 
 		#container {
@@ -49,7 +49,7 @@
 <body>
 	<div class="cursive" id="container">
 		<h1>Controle de Gastos</h1>
-		<form>
+		<form class="cursive">
 			<p>
 				Quanto você tem (R$)? <input type="number" min="0" step="0.01" id="valor" autofocus required>
 			</p>
@@ -96,7 +96,7 @@
 			const resultado = `São <b>${difDias}</b> dias de controle de gastos.<br>Você pode gastar <b>R$ ${gasto.toFixed(2)}</b> por dia.`
 			outResultado.innerHTML = resultado;
 
-			let projecao = `PROJEÇÔES:\nGastando a partir de hoje.\n\nData\t\tValor\n`;
+			let projecao = `PROJEÇÔES:\nGastando a partir de hoje.\n\nData\t\t\tValor\n`;
 
 			for (let dias = 2; dias <= difDias; dias++) {
 				const valorAtual = valor - gasto * (dias - 1);
