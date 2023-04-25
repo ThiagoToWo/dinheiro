@@ -1,61 +1,114 @@
 <!doctype html>
 <html>
+
 <head>
 	<title>Gastos</title>
-	<meta charset="utf-8"/>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<style>
-	body {background-color: #dff;}
+		body {
+			background-color: aliceblue
+		}
+
+		#container {
+			line-height: 1.4;
+			width: 73%;
+			margin: 0 auto;
+			padding: 10%;
+			background-color: #dff;
+			border-radius: 20px;
+			border: solid 1px;
+			font-family: cursive, monospace;
+		}
+
+		form {
+			margin: 10px;
+		}
+
+		input[type="submit"] {
+			border-radius: 5px;
+			font-family: cursive;
+			font-weight: bold;
+			padding: 5px;
+			border: solid 1px #768000;
+			background-color: beige;
+		}
+
+		pre {
+			background-color: bisque;
+			border: solid 1px;
+			padding: 3%;
+			border-radius: 10px;
+		}
 	</style>
 </head>
+
 <body>
-	<h1>Controle do Julius</h1>
-	<p>Quanto você tem (R$)? <input id="valor" size="4"/></p>
-	<p>Data inicial da economia? <input type="date" id="ini"/></p>
-	<p>Data do próximo pagamento? <input type="date" id="pag"/></p>
-	<p><button id="proc">Processar</button></p>
-	<span id="resultado"></span>
-	
+	<div id="container">
+		<h1>Controle de Gastos</h1>
+		<form>
+			<p>
+				Quanto você tem (R$)? <input type="number" min="0" step="0.01" id="valor" autofocus required>
+			</p>
+			<p>
+				Data inicial da economia? <input type="date" id="ini" required>
+			</p>
+			<p>
+				Data do próximo pagamento? <input type="date" id="pag" required>
+			</p>
+			<input type="submit" id="proc" value="Processar">
+		</form>
+
+		<span id="result"></span>
+		<pre id="proj"></pre>
+	</div>
+
 	<script>
-	var inValor = document.getElementById("valor");
-	var inData1 = document.getElementById("ini");
-	var inData2 = document.getElementById("pag");
-	
-	document.getElementById("proc").onclick = function() {
-		var valor = Number(inValor.value);
-		
-		if (valor == 0) {
-			alert("Insira um valor.");
-			return;
-		} else if (isNaN(valor)) {
-			alert("Insira um valor numérico válido. Separe os centavos com \".\" (ponto)" + 
-				" e não com \",\" (vírgula).");
-			return;
-		}
-		
-		var data1 = inData1.value;
-		
-		if (data1 == 0) {
-			alert("Insira uma data válida.");
-			return;
-		}
-		
-		var data2 = inData2.value;
-		
-		if (data2 == 0) {
-			alert("Insira uma data válida.");
-			return;
-		}
-		
-		var hoje = new Date(data1).getTime();
-		var pagamento = new Date(data2).getTime();
-		var dif = Math.floor((pagamento - hoje) / (1000 * 60 * 60 * 24));
-		var gasto = valor / (dif);
-		var resultado = "São <b>" + (dif) + "</b> dias de controle de gastos.<br>" +
-			" Você pode gastar <b>R$" +	gasto.toFixed(2) + "</b> por dia."
-		document.getElementById("resultado").innerHTML = resultado;
-	}	
+		const form = document.querySelector("form");
+		const inValor = document.querySelector("#valor");
+		const inData1 = document.querySelector("#ini");
+		const inData2 = document.querySelector("#pag");
+		const outResultado = document.querySelector("#result");
+		const outProjecao = document.querySelector("#proj");
+
+		const TIME_FACTOR = 1000 * 60 * 60 * 24;
+
+		form.addEventListener("submit", (e) => {
+			e.preventDefault();
+
+			const valor = Number(inValor.value);
+			const data1 = inData1.value;
+			const data2 = inData2.value;
+
+			const hoje = new Date(data1).getTime();
+			const pagamento = new Date(data2).getTime();
+
+			if (pagamento < hoje) {
+				alert("A data do próximo pagamento deve ser posterior ao dia de hoje");
+				return;
+			}
+
+			const difDias = Math.floor((pagamento - hoje) / TIME_FACTOR);
+			const gasto = valor / (difDias);
+			const resultado = `São <b>${difDias}</b> dias de controle de gastos.<br>Você pode gastar <b>R$ ${gasto.toFixed(2)}</b> por dia.`
+			outResultado.innerHTML = resultado;
+
+			let projecao = `PROJEÇÔES:\nGastando a partir de hoje.\n\nData\t\tValor\n`;
+
+			for (let dias = 2; dias <= difDias; dias++) {
+				const valorAtual = valor - gasto * (dias - 1);
+				const diasFaltando = difDias - dias;
+				const milisPassados = new Date(data1).getTime() + dias * TIME_FACTOR;
+				const dia = new Date(milisPassados).getDate();
+				const mes = new Date(milisPassados).getMonth();
+				const ano = new Date(milisPassados).getFullYear();
+
+				projecao += `${dia.toString().padStart(2, "0")}/${mes.toString().padStart(2, "0")}/${ano}\tR$ ${valorAtual.toFixed(2)}\n`;
+			}
+
+			outProjecao.innerText = projecao;
+		});	
 	</script>
 </body>
-</html>
 
+</html>
