@@ -18,7 +18,8 @@
 			background-color: #dff;
 			border-radius: 20px;
 			border: solid 1px;
-			font-family: cursive, monospace;
+			font-family: cursive;
+			font-size: 1.1em;
 		}
 
 		form {
@@ -28,6 +29,7 @@
 		input[type="submit"] {
 			border-radius: 5px;
 			font-family: cursive;
+			font-size: 1.1em;
 			font-weight: bold;
 			padding: 5px;
 			border: solid 1px #768000;
@@ -100,7 +102,7 @@
 				const diasFaltando = difDias - dias;
 				const milisPassados = new Date(data1).getTime() + dias * TIME_FACTOR;
 				const dia = new Date(milisPassados).getDate();
-				const mes = new Date(milisPassados).getMonth();
+				const mes = new Date(milisPassados).getMonth() + 1;
 				const ano = new Date(milisPassados).getFullYear();
 
 				projecao += `${dia.toString().padStart(2, "0")}/${mes.toString().padStart(2, "0")}/${ano}\tR$ ${valorAtual.toFixed(2)}\n`;
