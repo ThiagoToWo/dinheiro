@@ -12,17 +12,22 @@
 
 		.cursive {
 			font-family: cursive;
-			font-size: 1.1em;
+			font-size: 1.0em;
+		}
+
+		h1 {
+			font-family: cursive;
+			text-align: center;
 		}
 
 		#container {
 			line-height: 1.4;
 			width: 73%;
 			margin: 0 auto;
-			padding: 10%;
+			padding: 0 10%;
 			background-color: #dff;
 			border-radius: 20px;
-			border: solid 1px;			
+			border: solid 1px;
 		}
 
 		form {
@@ -37,18 +42,33 @@
 			background-color: beige;
 		}
 
+		span {
+			display: block;
+			height: 90px;
+		}
+
 		pre {
 			background-color: bisque;
 			border: solid 1px;
 			padding: 3%;
 			border-radius: 10px;
+			height: 300px;
+			overflow-y: scroll;
+		}
+
+		footer {
+			background-color: #369;
+			color: #ffc;
+			padding-left: 10px;
+			border-radius: 10px;
+			margin: 3%;
 		}
 	</style>
 </head>
 
 <body>
+	<h1>Controle de Gastos</h1>
 	<div class="cursive" id="container">
-		<h1>Controle de Gastos</h1>
 		<form class="cursive">
 			<p>
 				Quanto você tem (R$)? <input type="number" min="0" step="0.01" id="valor" autofocus required>
@@ -64,8 +84,13 @@
 
 		<span id="result" class="cursive"></span>
 		<pre id="proj" class="cursive"></pre>
-	</div>
 
+		
+	</div>
+	<footer>
+		<small>Por Thiago Alves - 2023 &copy; Todos os direitos reservados</small><br>
+		<small>towo497@gmail.com</small>
+	</footer>
 	<script>
 		const form = document.querySelector("form");
 		const inValor = document.querySelector("#valor");
